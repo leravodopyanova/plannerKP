@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane layoutY="20.0" prefHeight="346.0" prefWidth="1400.0" style="-fx-background-color: #01BED2;">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="132.60000457763672" minHeight="10.0" prefHeight="130.1999954223633" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="72.5999969482422" minHeight="10.0" prefHeight="24.600004577636724" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox layoutX="10.0" layoutY="256.0" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="100.0" text="Начало" textFill="WHITE">
+                     <font>
+                        <Font name="Comic Sans MS Bold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="250.0" top="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <DatePicker prefHeight="44.0" prefWidth="255.0" promptText="YYYY-MM-DD" showWeekNumbers="true">
+                     <HBox.margin>
+                        <Insets left="75.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </DatePicker>
+               </children>
+            </HBox>
+            <Pane prefHeight="106.0" prefWidth="700.0">
+               <children>
+                  <HBox layoutY="-1.0" prefHeight="133.0" prefWidth="700.0">
+                     <children>
+                        <ImageView fitHeight="164.0" fitWidth="205.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Users/Лера/IdeaProjects/demo8/src/main/resources/com/example/images/logo.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="134.0" prefWidth="498.0" text="ProjectName" textFill="POWDERBLUE">
+                           <font>
+                              <Font name="Comic Sans MS" size="80.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+               <children>
+                  <Label prefWidth="118.0" text="Дедлайн" textFill="WHITE">
+                     <font>
+                        <Font name="Comic Sans MS Bold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="250.0" top="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <DatePicker prefHeight="40.0" prefWidth="260.0" promptText="YYYY-MM-DD" showWeekNumbers="true">
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="65.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </DatePicker>
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="164.0" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="126.0" text="Выполнено" textFill="WHITE">
+                     <font>
+                        <Font name="Comic Sans MS Bold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="250.0" />
+                     </HBox.margin>
+                  </Label>
+                  <DatePicker prefHeight="42.0" prefWidth="254.0" promptText="YYYY-MM-DD" showWeekNumbers="true">
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="55.0" right="20.0" />
+                     </HBox.margin>
+                  </DatePicker>
+               </children>
+            </HBox>
+            <VBox prefHeight="115.0" prefWidth="700.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <HBox prefHeight="93.0" prefWidth="186.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="28.0" prefWidth="170.0" text="Цвет блока" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font name="Comic Sans MS Bold" size="20.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="30.0" left="20.0" top="30.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <ColorPicker prefHeight="26.0" prefWidth="216.0" promptText="Цвет задачи">
+                           <HBox.margin>
+                              <Insets right="20.0" top="30.0" />
+                           </HBox.margin>
+                           <value>
+                              <Color red="0.6830409169197083" green="0.7684210538864136" blue="0.7499220371246338" />
+                           </value>
+                        </ColorPicker>
+                        <HBox layoutX="10.0" layoutY="10.0" prefHeight="89.0" prefWidth="141.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="89.0" prefWidth="142.0" text="Время выполнения" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                 <font>
+                                    <Font name="Comic Sans MS Bold" size="20.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <VBox prefHeight="89.0" prefWidth="146.0">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="50.0" prefWidth="34.0" text="C" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="Comic Sans MS Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField alignment="CENTER" prefHeight="45.0" prefWidth="117.0" promptText="12:00" style="-fx-background-color: #ffffff;">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="50.0" prefWidth="34.0" text="До" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="Comic Sans MS Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField alignment="CENTER" prefHeight="45.0" prefWidth="114.0" promptText="14:00" style="-fx-background-color: #ffffff;">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets right="20.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="238.0" text="Дисциплина" textFill="WHITE">
+                     <font>
+                        <Font name="Comic Sans MS Bold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="50.0" left="20.0" top="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ScrollPane prefHeight="133.0" prefWidth="582.0">
+                     <content>
+                        <ListView prefHeight="91.0" prefWidth="570.0" />
+                     </content>
+                     <HBox.margin>
+                        <Insets bottom="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </ScrollPane>
+               </children>
+            </HBox>
+            <HBox prefHeight="26.0" prefWidth="700.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="2">
+               <children>
+                  <Label prefHeight="151.0" prefWidth="156.0" text="Комментарий" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Comic Sans MS Bold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextArea prefHeight="112.0" prefWidth="519.0" promptText="Введите комментарий к дисциплине..." style="-fx-border-radius: 50px;" wrapText="true">
+                     <font>
+                        <Font name="Comic Sans MS" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </TextArea>
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+      <HBox layoutY="392.0" prefHeight="408.0" prefWidth="878.0">
+         <children>
+            <VBox prefHeight="408.0" prefWidth="875.0">
+               <children>
+                  <GridPane prefHeight="348.0" prefWidth="855.0" style="-fx-background-color: #FFEFD5; -fx-border-color: #FFD700; -fx-border-width: 3;">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="524.2000122070312" minWidth="10.0" prefWidth="425.00000000000006" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="423.0" minWidth="10.0" prefWidth="423.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="55.60001220703125" minHeight="10.0" prefHeight="48.799981689453126" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="62.799993896484374" minHeight="10.0" prefHeight="56.4" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <Pane prefHeight="49.0" prefWidth="494.0">
+                           <children>
+                              <HBox prefHeight="50.0" prefWidth="848.0">
+                                 <children>
+                                    <ComboBox prefHeight="30.0" prefWidth="406.0" promptText="Путь для сохранения файлов" style="-fx-background-color: white; -fx-border-color: #FFD700; -fx-border-width: 1.5;">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                    <HBox prefHeight="50.0" prefWidth="422.0">
+                                       <children>
+                                          <TextField alignment="CENTER" prefHeight="30.0" prefWidth="259.0" promptText="Название плана" style="-fx-background-color: #ffffff; -fx-border-color: #FFD700; -fx-border-width: 1.5;">
+                                             <HBox.margin>
+                                                <Insets bottom="10.0" left="10.0" top="10.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                          <Button fx:id="btnClose" mnemonicParsing="false" prefHeight="54.0" prefWidth="31.0" style="-fx-background-color: rgba(0,0,0,0);" styleClass="transparent" stylesheets="@../../Users/Лера/IdeaProjects/demo8/src/main/resources/com/example/values/style.css">
+                                             <graphic>
+                                                <ImageView fitHeight="33.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../Users/Лера/IdeaProjects/demo8/src/main/resources/com/example/images/close_window_48px.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="btnClose1" layoutX="264.0" layoutY="10.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="31.0" style="-fx-background-color: rgba(0,0,0,0);" styleClass="transparent" stylesheets="@../../Users/Лера/IdeaProjects/demo8/src/main/resources/com/example/values/style.css">
+                                             <graphic>
+                                                <ImageView fitHeight="33.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../Users/Лера/IdeaProjects/demo8/src/main/resources/com/example/images/close_window_48px.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="btnClose2" layoutX="264.0" layoutY="10.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="31.0" style="-fx-background-color: rgba(0,0,0,0);" styleClass="transparent" stylesheets="@../../Users/Лера/IdeaProjects/demo8/src/main/resources/com/example/values/style.css">
+                                             <graphic>
+                                                <ImageView fitHeight="33.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../Users/Лера/IdeaProjects/demo8/src/main/resources/com/example/images/close_window_48px.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </Pane>
+                        <ListView prefHeight="278.0" prefWidth="829.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="6">
+                           <GridPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </GridPane.margin>
+                        </ListView>
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <TabPane layoutX="896.0" layoutY="393.0" prefHeight="346.0" prefWidth="478.0" style="-fx-background-color: #b0e0e6; -fx-border-width: 3; -fx-border-color: #AFEEEE;" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Таблица">
+               <content>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <TableView editable="true" style="-fx-background-color: #AFEEEE;">
+                          <columns>
+                            <TableColumn prefWidth="31.199950397014618" text="№" />
+                            <TableColumn prefWidth="88.00000381469727" text="Дата начала" />
+                              <TableColumn prefWidth="102.4000244140625" text="Дата окончания" />
+                              <TableColumn prefWidth="64.79991149902344" text="Дедлайн" />
+                              <TableColumn prefWidth="83.19995498657227" text="Дисциплина" />
+                              <TableColumn prefWidth="43.2000732421875" text="С" />
+                              <TableColumn prefWidth="43.2000732421875" text="До" />
+                              <TableColumn prefWidth="43.2000732421875" text="Статус" />
+                              <TableColumn prefWidth="43.2000732421875" text="Комментарий" />
+                              <TableColumn prefWidth="43.2000732421875" text="Цвет дсциплины" />
+                              <TableColumn prefWidth="43.2000732421875" text="Номер недели" />
+                          </columns>
+                        </TableView>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+          <Tab text="График выполнения">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <StackedBarChart prefHeight="311.0" prefWidth="472.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </StackedBarChart>
+                        <HBox prefHeight="126.0" prefWidth="472.0">
+                           <children>
+                              <TextField alignment="CENTER" prefHeight="29.0" prefWidth="492.0" promptText="Месяц" style="-fx-background-color: #ffffff;">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="341.0" text="Button">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content></Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
