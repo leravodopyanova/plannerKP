@@ -229,7 +229,7 @@
          <children>
             <VBox prefHeight="408.0" prefWidth="875.0">
                <children>
-                  <GridPane fx:id="btnBack" prefHeight="347.0" prefWidth="855.0" style="-fx-border-color: #FFD700; -fx-border-width: 3; -fx-background-color: #FFEFD5;">
+                  <GridPane fx:id="gridPaneNode" prefHeight="347.0" prefWidth="855.0" style="-fx-border-color: #FFD700; -fx-border-width: 3; -fx-background-color: #FFEFD5;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="365.4000244140625" minWidth="10.0" prefWidth="205.8" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="642.4" minWidth="10.0" prefWidth="642.4" />

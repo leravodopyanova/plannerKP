@@ -55,10 +55,9 @@ public class Controller implements Initializable {
     public Button btnDiagram;
     public Button btnRight;
     public Button btnLeft;
-    public GridPane btnBack;
     public Button toNext;
     public Label lblColorBlock;
-    public GridPane gridPaneNode;
+    public GridPane gridPaneNode = new GridPane();
     private final ObservableList<String> extensions = FXCollections.observableArrayList("Excel", "PNG", "JPEG");
     public ComboBox cmbTypeFile;
     public Button btnClose11;
@@ -191,7 +190,6 @@ public class Controller implements Initializable {
     }
 
     public void onCanva1_clicked(MouseEvent mouseEvent) {
-        //  стили через фабрику или декоратор
         gr = canvas1.getGraphicsContext2D();
         tfFromTime.setText("");
         tfToTime.setText("");
