@@ -13,29 +13,24 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import model.CheckClass;
-import model.DrawStudies;
-import model.Rectan;
-import model.tableViewPlan;
+import model.*;
 
-import javax.imageio.ImageIO;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.WeekFields;
 import java.util.*;
-
-import static javafx.embed.swing.SwingFXUtils.fromFXImage;
 
 public class Controller implements Initializable {
     public TextField tfDisciplineSt;
@@ -58,21 +53,22 @@ public class Controller implements Initializable {
     public Button toNext;
     public Label lblColorBlock;
     public GridPane gridPaneNode = new GridPane();
-    private final ObservableList<String> extensions = FXCollections.observableArrayList("Excel", "PNG", "JPEG");
+    private final ObservableList<String> extensions = FXCollections.observableArrayList("Excel", "PNG", "DAT");
     public ComboBox cmbTypeFile;
     public Button btnClose11;
     public Button btnClose111;
-    private ObservableList<tableViewPlan> tableViewPlans = FXCollections.observableArrayList();
-    public TableView <tableViewPlan>tvTablePlans;
-    public TableColumn <tableViewPlan, Integer> colNo;
-    public TableColumn <tableViewPlan, LocalDate> colDate;
-    public TableColumn <tableViewPlan, String> colFrom;
-    public TableColumn <tableViewPlan, String> colTo;
-    public TableColumn <tableViewPlan, String> colDiscipl;
-    public TableColumn <tableViewPlan, String> colStatus;
-    public TableColumn <tableViewPlan, String> colComm;
-    public TableColumn <tableViewPlan, String> colColor;
-    public TableColumn <tableViewPlan, Integer> colWeekNo;
+    public AnchorPane windowSt;
+    private ObservableList<tableViewPlan> tableViewPlans = FXCollections.observableArrayList();;
+    public TableView <tableViewPlan>tvTablePlans = new TableView<>();
+    public TableColumn <tableViewPlan, Integer> colNo = new TableColumn<>();
+    public TableColumn <tableViewPlan, LocalDate> colDate = new TableColumn<>();
+    public TableColumn <tableViewPlan, String> colFrom = new TableColumn<>();
+    public TableColumn <tableViewPlan, String> colTo = new TableColumn<>();
+    public TableColumn <tableViewPlan, String> colDiscipl = new TableColumn<>();
+    public TableColumn <tableViewPlan, String> colStatus = new TableColumn<>();
+    public TableColumn <tableViewPlan, String> colComm = new TableColumn<>();
+    public TableColumn<tableViewPlan, Color> colColor = new TableColumn<>();
+    public TableColumn <tableViewPlan, Integer> colWeekNo = new TableColumn<>();
     private SnapshotParameters ssp;
     public DatePicker dpDate;
     public Button btnCloseSt;
@@ -88,38 +84,46 @@ public class Controller implements Initializable {
     public TextField tfToTime;
     public TextArea taComment;
     public Button btnAddToPlanSt;
+    public UserSettings userSettings;
     @FXML
     private TextField tfProjectNameSt;
     @FXML
     private TextField tfProjectNameM;
     private Calendar calendar = Calendar.getInstance();
+
     private LocalDate date;
-    private Locale locale = Locale.US;
-    private GregorianCalendar gnow = new GregorianCalendar();
+    private Locale locale = Locale.ENGLISH;
+    private GregorianCalendar gnow;
     private int countCol = 0;
     private int weekNo;
-    int key = 0;
-    int amount = 7;
     private String filename = "C:\\Users\\Лера\\Downloads\\Книга1.xlsx";
-    private CheckClass checkClass = new CheckClass();
+    private CheckClass checkClass;
     private Rectan rectan;
-    private DrawStudies drawStudies = new DrawStudies();
+    private Decorator decRectan;
     private String canvasDate = "";
     private Stage stage;
     private DirectoryChooser directoryChooser;
     private File selectedDirectory;
     private String saveDir = "C:\\";
     private HashMap<Canvas, String> canvasDateMap = new HashMap<>();
+    private  HashMap<String, Date> weekDates = new HashMap<>();
     private Alert alertSaveDir;
+    private boolean isEditStart = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        gnow = new GregorianCalendar();
+        checkClass = new CheckClass();
+        userSettings = new UserSettings();
+
+        decRectan = null;
+
         chooseSaveDir();
         setToolTips();
 
         cmbTypeFile.setItems(extensions);
         weekNo = LocalDateTime.now().get(WeekFields.of(locale).weekOfWeekBasedYear()) - 1;
-        lblMonth.setText(getLocaleMonth(calendar));
+        lblMonth.setText(userSettings.getLocaleMonth());
         lblWeekNom.setText("Неделя " + weekNo);
         ssp = new SnapshotParameters();
 
@@ -149,6 +153,7 @@ public class Controller implements Initializable {
         rectan = new Rectan(Color.TRANSPARENT, 10, 10, 0, 0);
         gr = canvas1.getGraphicsContext2D();
 
+
         // Разные цвета для полей диаграммы
         canvas2.getGraphicsContext2D().setFill(Color.LIGHTGOLDENRODYELLOW);
         canvas2.getGraphicsContext2D().fillRect(0, 0, canvas2.getWidth(), canvas2.getHeight());
@@ -163,18 +168,17 @@ public class Controller implements Initializable {
     public void btnAddToPlanM_OnAction(ActionEvent actionEvent) {
 
     }
-
     public void btnAddToPlanSt_OnAction(ActionEvent actionEvent) {
+        colNo.setCellValueFactory(new PropertyValueFactory<tableViewPlan, Integer >("colNo"));
+        colDate.setCellValueFactory(new PropertyValueFactory<tableViewPlan, LocalDate>("colDate"));
+        colDiscipl.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("colDiscipl"));
+        colFrom.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("colFrom"));
+        colTo.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("colTo"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("colStatus"));
+        colComm.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("colComm"));
+        colColor.setCellValueFactory(new PropertyValueFactory<tableViewPlan, Color>("colColor"));
+        colWeekNo.setCellValueFactory(new PropertyValueFactory<tableViewPlan, Integer>("colWeekNo"));
         init_Data();
-        colNo.setCellValueFactory(new PropertyValueFactory<tableViewPlan, Integer >("id"));
-        colDate.setCellValueFactory(new PropertyValueFactory<tableViewPlan, LocalDate>("2000-02-02"));
-        colDiscipl.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("дисциплина"));
-        colFrom.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("2000"));
-        colTo.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("2000"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("V"));
-        colComm.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("Comment1"));
-        colColor.setCellValueFactory(new PropertyValueFactory<tableViewPlan, String>("red"));
-        colWeekNo.setCellValueFactory(new PropertyValueFactory<tableViewPlan, Integer>("Неделя1"));
 
         tvTablePlans.setItems(tableViewPlans);
     }
@@ -190,91 +194,40 @@ public class Controller implements Initializable {
     }
 
     public void onCanva1_clicked(MouseEvent mouseEvent) {
-        gr = canvas1.getGraphicsContext2D();
-        tfFromTime.setText("");
-        tfToTime.setText("");
-        drawStudies.drawActivity(gr, mouseEvent, rectan, tfFromTime, tfToTime);
+        userSettings.CanvasClick(tfFromTime, tfToTime, canvas1, mouseEvent, rectan, weekDates, dpDate);
+        isEditStart = true;
     }
 
     public void onCanva2_clicked(MouseEvent mouseEvent) {
-        tfFromTime.setText("");
-        tfToTime.setText("");
-        gr = canvas2.getGraphicsContext2D();
-        drawStudies.drawActivity(gr, mouseEvent, rectan, tfFromTime, tfToTime);
+        userSettings.CanvasClick(tfFromTime, tfToTime, canvas2, mouseEvent, rectan, weekDates, dpDate);
+        isEditStart = true;
     }
 
     public void onCanva3_clicked(MouseEvent mouseEvent) {
-        tfFromTime.setText("");
-        tfToTime.setText("");
-        gr = canvas3.getGraphicsContext2D();
-        drawStudies.drawActivity(gr, mouseEvent, rectan, tfFromTime, tfToTime);
+        userSettings.CanvasClick(tfFromTime, tfToTime, canvas3, mouseEvent, rectan, weekDates, dpDate);
+        isEditStart = true;
     }
 
     public void onCanva4_clicked(MouseEvent mouseEvent) {
-        tfFromTime.setText("");
-        tfToTime.setText("");
-        gr = canvas4.getGraphicsContext2D();
-        drawStudies.drawActivity(gr, mouseEvent, rectan, tfFromTime, tfToTime);
+        userSettings.CanvasClick(tfFromTime, tfToTime, canvas4, mouseEvent, rectan, weekDates, dpDate);
+        isEditStart = true;
     }
 
     public void onCanva5_clicked(MouseEvent mouseEvent) {
-        tfFromTime.setText("");
-        tfToTime.setText("");
-        gr = canvas5.getGraphicsContext2D();
-        drawStudies.drawActivity(gr, mouseEvent, rectan, tfFromTime, tfToTime);
+        userSettings.CanvasClick(tfFromTime, tfToTime, canvas5, mouseEvent, rectan, weekDates, dpDate);
+        isEditStart = true;
     }
 
     public void onCanva6_clicked(MouseEvent mouseEvent) {
-        tfFromTime.setText("");
-        tfToTime.setText("");
-        gr = canvas6.getGraphicsContext2D();
-        drawStudies.drawActivity(gr, mouseEvent, rectan, tfFromTime, tfToTime);
+        userSettings.CanvasClick(tfFromTime, tfToTime, canvas6, mouseEvent, rectan, weekDates, dpDate);
+        isEditStart = true;
     }
 
     public void onCanva7_clicked(MouseEvent mouseEvent) {
-        tfFromTime.setText("");
-        tfToTime.setText("");
-        gr = canvas7.getGraphicsContext2D();
-        drawStudies.drawActivity(gr, mouseEvent, rectan, tfFromTime, tfToTime);
+        userSettings.CanvasClick(tfFromTime, tfToTime, canvas7, mouseEvent, rectan, weekDates, dpDate);
+        isEditStart = true;
     }
-    public String getLocaleMonth(Calendar calendar){
-        if (calendar.get(Calendar.MONTH) == Calendar.JANUARY){
-            return "Январь";
-        }
-        else if(calendar.get(Calendar.MONTH) == Calendar.FEBRUARY){
-            return "Февраль";
-        }
-        else if(calendar.get(Calendar.MONTH) == Calendar.MARCH){
-            return "Март";
-        }
-        else if(calendar.get(Calendar.MONTH) == Calendar.APRIL){
-            return "Апрель";
-        }
-        else if(calendar.get(Calendar.MONTH) == Calendar.MAY){
-            return "Май";
-        }
-        else if(calendar.get(Calendar.MONTH) == Calendar.JUNE){
-            return "Июнь";
-        }
-        else if(calendar.get(Calendar.MONTH) == Calendar.JULY){
-            return "Июль";
-        }
-        else if(calendar.get(Calendar.MONTH) == Calendar.AUGUST){
-            return "Август";
-        }
-        else if(calendar.get(Calendar.MONTH) == Calendar.SEPTEMBER){
-            return "Сентябрь";
-        }
-        else if(calendar.get(Calendar.MONTH) == Calendar.OCTOBER){
-            return "Октябрь";
-        }
-        else if(calendar.get(Calendar.MONTH) == Calendar.NOVEMBER){
-            return "Ноябрь";
-        }
-        else {
-            return "Декабрь";
-        }
-    }
+
     public String getDateString(){
         String dateStr = calendar.getTime().toString();
         dateStr = dateStr.substring(4, 11) + dateStr.substring((dateStr.length() - 4));
@@ -282,32 +235,48 @@ public class Controller implements Initializable {
     }
     public void loadGanttDiagram(){
         canvasDateMap.clear();
+        weekDates.clear();
         clearDiagram();
 
         lblWeekNom.setText("Неделя " + weekNo);
 
         calendar.setWeekDate(2022, weekNo, Calendar.MONDAY);
+        calendar = calendar;
         setCanvasColor(canvas1);
+        System.out.println(calendar.getTime());
+        weekDates.put(canvas1.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.TUESDAY);
+        calendar = calendar;
         setCanvasColor(canvas2);
+        weekDates.put(canvas2.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.WEDNESDAY);
+        calendar = calendar;
         setCanvasColor(canvas3);
+        weekDates.put(canvas3.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.THURSDAY);
+        calendar = calendar;
         setCanvasColor(canvas4);
+        weekDates.put(canvas4.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.FRIDAY);
+        calendar = calendar;
         setCanvasColor(canvas5);
+        weekDates.put(canvas5.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.SATURDAY);
+        calendar = calendar;
         setCanvasColor(canvas6);
+        weekDates.put(canvas6.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.SUNDAY);
+        calendar = calendar;
         setCanvasColor(canvas7);
+        weekDates.put(canvas7.getId(), calendar.getTime());
 
-        lblMonth.setText(getLocaleMonth(calendar));
+        lblMonth.setText(userSettings.getLocaleMonth());
     }
 
     public void btnLeftClick(ActionEvent actionEvent) {
@@ -322,6 +291,7 @@ public class Controller implements Initializable {
 
     public void setCanvasColor(Canvas cnv){
         canvasDateMap.put(cnv, getDateString());
+        System.out.println(canvasDateMap);
         cnv.getGraphicsContext2D().setFill(Color.ORANGE);
         cnv.getGraphicsContext2D().setTextAlign(TextAlignment.CENTER);
         cnv.getGraphicsContext2D().setFont(Font.font("Comic Sans MS", 18));
@@ -336,8 +306,10 @@ public class Controller implements Initializable {
     public void clearDiagramOnAction(ActionEvent actionEvent) {
         tfToTime.setText("");
         tfFromTime.setText("");
+        dpDate.setValue(null);
         clearDiagram();
         loadGanttDiagram();
+        isEditStart = false;
     }
 
     public void clearDiagram(){
@@ -358,11 +330,9 @@ public class Controller implements Initializable {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-        saveAsPng(gridPaneNode, tfProjectNameSt.getText(), ssp);
+        saveAsPng(windowSt, tfProjectNameSt.getText(), ssp);// выбор формата и отдельные методы, вынести в класс
     }
 
-    public void btnDiagramOnAction(ActionEvent actionEvent) {
-    }
     public void chooseSaveDir(){
         alertSaveDir = new Alert(Alert.AlertType.INFORMATION);
         stage = new Stage();
@@ -384,7 +354,6 @@ public class Controller implements Initializable {
     public void setToolTips(){
         btnSave.setTooltip(new Tooltip("Сохранить диаграмму"));
         btnClear.setTooltip(new Tooltip("Очистить диаграмму Ганта"));
-        btnDiagram.setTooltip(new Tooltip("Построить диаграмму для анализа"));
         btnRight.setTooltip(new Tooltip("Перевод календаря на неделю вперед"));
         btnLeft.setTooltip(new Tooltip("Перевод календаря на неделю назад"));
         toNext.setTooltip(new Tooltip("Переход на страницу Методиста"));
@@ -394,12 +363,38 @@ public class Controller implements Initializable {
         tfProjectNameSt.setTooltip(new Tooltip("Это название будет выбрано для сохранения файла"));
     }
     public void saveAsPng(Node node, String fname, SnapshotParameters ssp) {
-        WritableImage image = node.snapshot(ssp, null);
-        File file = new File(saveDir + "\\" + fname + ".png");
-        try {
-            ImageIO.write(fromFXImage(image, null), "png", file);
-        } catch (IOException e) {
-            // TODO: handle exception here
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveDir + "\\" + fname + ".dat")))
+        {
+            oos.writeObject(node);
+        }
+        catch(Exception ex){
+            alertSaveDir = new Alert(Alert.AlertType.ERROR);
+            alertSaveDir.setTitle("Сохранение файла");
+            alertSaveDir.setHeaderText("Внимание!");
+            alertSaveDir.setContentText(ex.getMessage());
+            alertSaveDir.showAndWait();
+        }
+    }
+
+    public void chooseColorOnAction(ActionEvent actionEvent) {
+        if(isEditStart){
+            if(decRectan==null){
+                decRectan=new Conturee(userSettings.getShape(), Color.DARKORANGE);
+            }
+            else{
+                decRectan=new Conturee(userSettings.getShape(), cpBlockColor.getValue());
+            }
+
+            decRectan.draw(userSettings.getContext());
+        }
+    }
+
+    public void taCommentInputChange(MouseEvent inputMethodEvent) {
+        if(isEditStart && decRectan!=null){
+            decRectan=new Conturee(userSettings.getShape(), cpBlockColor.getValue());
+            decRectan.draw(userSettings.getContext());
+            decRectan=new Textt(userSettings.getShape(), taComment.getText(), Color.WHITE);
+            decRectan.draw(userSettings.getContext());
         }
     }
 }
