@@ -17,6 +17,9 @@ public abstract class SaveSettings {
     protected String saveDir = "";
 
     public abstract void saveToFile(Node node, SnapshotParameters ssp) throws IOException;
+    public SaveSettings(){
+
+    }
     public void chooseSaveDir(){
        alert = new Alert(Alert.AlertType.INFORMATION);
        stage = new Stage();

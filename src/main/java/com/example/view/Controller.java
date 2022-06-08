@@ -1,31 +1,29 @@
-package com.example.planner1;
+package com.example.view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.*;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -47,17 +45,16 @@ public class Controller implements Initializable {
     public Label lblWeekNom;
     public Button btnSave;
     public Button btnClear;
-    public Button btnDiagram;
     public Button btnRight;
     public Button btnLeft;
     public Button toNext;
     public Label lblColorBlock;
     public GridPane gridPaneNode = new GridPane();
-    private final ObservableList<String> extensions = FXCollections.observableArrayList("Excel", "PNG", "DAT");
+    private final ObservableList<String> extensions = FXCollections.observableArrayList(".xlsx", ".png", ".dat");
     public ComboBox cmbTypeFile;
     public Button btnClose11;
     public Button btnClose111;
-    public AnchorPane windowSt;
+    public Button btnHow;
     private ObservableList<tableViewPlan> tableViewPlans = FXCollections.observableArrayList();;
     public TableView <tableViewPlan>tvTablePlans = new TableView<>();
     public TableColumn <tableViewPlan, Integer> colNo = new TableColumn<>();
@@ -101,14 +98,13 @@ public class Controller implements Initializable {
     private Rectan rectan;
     private Decorator decRectan;
     private String canvasDate = "";
-    private Stage stage;
-    private DirectoryChooser directoryChooser;
-    private File selectedDirectory;
     private String saveDir = "C:\\";
     private HashMap<Canvas, String> canvasDateMap = new HashMap<>();
     private  HashMap<String, Date> weekDates = new HashMap<>();
-    private Alert alertSaveDir;
     private boolean isEditStart = false;
+    private SaveSettings saveSettings = new SavePng("1", ".png");
+    private String selectedExtension = "";
+    private TypeFileFactory typeFileFactory = new TypeFileFactory();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -118,7 +114,7 @@ public class Controller implements Initializable {
 
         decRectan = null;
 
-        chooseSaveDir();
+        saveSettings.chooseSaveDir();
         setToolTips();
 
         cmbTypeFile.setItems(extensions);
@@ -139,20 +135,15 @@ public class Controller implements Initializable {
             }
         });
 
-       /* btnCloseM.setOnMouseClicked(new EventHandler<MouseEvent>() {
+       btnCloseM.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 System.exit(0);
             }
         });
-        */
-
-        // Заполнение tableView
-
 
         rectan = new Rectan(Color.TRANSPARENT, 10, 10, 0, 0);
         gr = canvas1.getGraphicsContext2D();
-
 
         // Разные цвета для полей диаграммы
         canvas2.getGraphicsContext2D().setFill(Color.LIGHTGOLDENRODYELLOW);
@@ -163,6 +154,32 @@ public class Controller implements Initializable {
         canvas6.getGraphicsContext2D().fillRect(0, 0, canvas6.getWidth(), canvas6.getHeight());
 
         loadGanttDiagram();
+    }
+
+    private void startMethodistWin(){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("WorkPlacemathodist.fxml"));
+            Stage stage = new Stage();
+            stage.setMaximized(true);
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startStudentWin(){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("WorkPlaceStudent.fxml"));
+            Stage stage = new Stage();
+            stage.setMaximized(true);
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnAddToPlanM_OnAction(ActionEvent actionEvent) {
@@ -329,30 +346,13 @@ public class Controller implements Initializable {
         canvas7.getGraphicsContext2D().fillRect(0, 0, canvas7.getWidth(), canvas7.getHeight());
     }
 
-    public void btnSaveOnAction(ActionEvent actionEvent) {
-        saveAsPng(windowSt, tfProjectNameSt.getText(), ssp);// выбор формата и отдельные методы, вынести в класс
+    public void btnSaveOnAction(ActionEvent actionEvent) throws IOException {
+       saveSettings = typeFileFactory.getSaveType(tfProjectNameSt.getText(), selectedExtension, tableViewPlans);
+       saveSettings.saveToFile(gridPaneNode, ssp);
     }
 
-    public void chooseSaveDir(){
-        alertSaveDir = new Alert(Alert.AlertType.INFORMATION);
-        stage = new Stage();
-        directoryChooser = new DirectoryChooser();
-
-        alertSaveDir.setTitle("Путь для сохранения файлов");
-        alertSaveDir.setHeaderText("Внимание!");
-
-        directoryChooser.setTitle("Выберите каталог для сохранения");
-        selectedDirectory = directoryChooser.showDialog(stage);
-
-        if (selectedDirectory != null) {
-          saveDir = selectedDirectory.getAbsolutePath();
-        }
-
-        alertSaveDir.setContentText("Для сохранения выбран путь " + saveDir + "\nЕсли хотите изменить путь, перезапустите программу.");
-        alertSaveDir.showAndWait();
-    }
     public void setToolTips(){
-        btnSave.setTooltip(new Tooltip("Сохранить диаграмму"));
+        btnSave.setTooltip(new Tooltip("Сохранить диаграмму (png), или таблицу (xlsx, dat)"));
         btnClear.setTooltip(new Tooltip("Очистить диаграмму Ганта"));
         btnRight.setTooltip(new Tooltip("Перевод календаря на неделю вперед"));
         btnLeft.setTooltip(new Tooltip("Перевод календаря на неделю назад"));
@@ -361,19 +361,8 @@ public class Controller implements Initializable {
         btnCloseSt.setTooltip(new Tooltip("Закрыть окно программы"));
         lblColorBlock.setTooltip(new Tooltip("Выберите цвет контура блока и текста комментария"));
         tfProjectNameSt.setTooltip(new Tooltip("Это название будет выбрано для сохранения файла"));
-    }
-    public void saveAsPng(Node node, String fname, SnapshotParameters ssp) {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveDir + "\\" + fname + ".dat")))
-        {
-            oos.writeObject(node);
-        }
-        catch(Exception ex){
-            alertSaveDir = new Alert(Alert.AlertType.ERROR);
-            alertSaveDir.setTitle("Сохранение файла");
-            alertSaveDir.setHeaderText("Внимание!");
-            alertSaveDir.setContentText(ex.getMessage());
-            alertSaveDir.showAndWait();
-        }
+        btnHow.setTooltip(new Tooltip("Кликните по строке с нужным днем и под нужным временем - первая граница задачи, второй клик - для обозначения второй границы.\n" +
+                "Третий клик по пустому месту строки - заливка задачи цветом по умолчанию."));
     }
 
     public void chooseColorOnAction(ActionEvent actionEvent) {
@@ -396,5 +385,13 @@ public class Controller implements Initializable {
             decRectan=new Textt(userSettings.getShape(), taComment.getText(), Color.WHITE);
             decRectan.draw(userSettings.getContext());
         }
+    }
+
+    public void cmbType_onAction(ActionEvent actionEvent) {
+        selectedExtension = cmbTypeFile.getValue().toString();
+    }
+
+    public void toNextOnAction_St(ActionEvent actionEvent) {
+        startMethodistWin();
     }
 }

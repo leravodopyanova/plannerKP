@@ -1,4 +1,4 @@
-package com.example.planner1;
+package com.example.view;
 
 
 import javafx.application.Application;
