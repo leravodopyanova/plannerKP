@@ -11,40 +11,29 @@ class CalculationTest {
 
     @AfterEach
     void tearDown() {
-
     }
 
     @Test
-    @DisplayName
-            ("Проверка количества минут по двум координатам Х")
+    @DisplayName("проверка определения времени для отрезка")
     void getTimeSubj_min() {
-        Assertions.assertEquals(22, calculation.getTimeSubj_min(20, 10));
+        Assertions.assertEquals(22, calculation.getTimeSubj_min(10, 20), "проверка определения времени для отрезка не выполнена");
     }
 
     @Test
-    @DisplayName
-            ("Проверка получения строки чч:мм по двум координатам Х (минут > 10)")
+    @DisplayName("проверка определения времени в формате чч:мм для отрезка")
     void getTimeSubjAllTime() {
-        Assertions.assertEquals(0, calculation.getTimeSubj_min(20, 10)/60, "Проверка часов");
-        Assertions.assertEquals(22, calculation.getTimeSubj_min(20, 10)%60, "Проверка минут");
-        Assertions.assertEquals("0:22", (calculation.getTimeSubjAllTime(20, 10)), "Проверка получения всей строки времени (минут > 10)");
-        Assertions.assertEquals("0:09", (calculation.getTimeSubjAllTime(0, 4)), "Проверка получения всей строки времени (минут <= 10)");
+        Assertions.assertEquals("0:22", calculation.getStringFullTimeSubj(10, 20), "проверка определения времени для отрезка в формате чч:мм не выполнена");
     }
 
     @Test
-    @DisplayName
-            ("Проверка получения строки чч:мм в точке с координатой Х")
+    @DisplayName("проверка определения времени в мин для точки отрезка")
     void getTimePointInMinutes() {
-        Assertions.assertEquals(22, calculation.getTimePointInMinutes(10), "Проверка минут в точке");
+        Assertions.assertEquals(224, calculation.getTimePointInMinutes(100), "проверка определения времени в мин для точки отрезка");
     }
 
     @Test
-    @DisplayName
-            ("Проверка количества минут по двум координатам Х (минут > 10)")
+    @DisplayName("проверка определения времени в формате чч:мм для точки отрезка")
     void getTimePoint() {
-        Assertions.assertEquals(0, calculation.getTimeSubj_min(20, 10)/60, "Проверка часов");
-        Assertions.assertEquals(22, calculation.getTimeSubj_min(20, 10)%60, "Проверка минут");
-        Assertions.assertEquals("0:22", (calculation.getTimePoint(10)), "Проверка получения всей строки времени (минут > 10)");
-        Assertions.assertEquals("0:09", (calculation.getTimePoint(4)), "Проверка получения всей строки времени (минут <= 10)");
+        Assertions.assertEquals("3:44", calculation.getTimePoint(100), "проверка определения времени для точки отрезка в формате чч:мм не выполнена");
     }
 }

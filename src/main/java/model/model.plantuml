@@ -1,0 +1,274 @@
+@startuml
+
+title __MODEL's Class Diagram__\n
+
+  namespace  {
+    namespace odel {
+      class model.Calculation {
+          - HOUR_IN_PX : double
+          - LENGTH : double
+          - MINUTE_IN_PX : double
+          - hours : int
+          - hours_length_in_px : double
+          - minutes : float
+          - minutes_length_in_px : double
+          - time : String
+          + getTimePoint()
+          + getTimePointInMinutes()
+          + getTimeSubjAllTime()
+          + getTimeSubj_min()
+          + setDateField()
+          + setTextFieldsByTime()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.CheckClass {
+          + checkStatus()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.Conturee {
+          - color : Color
+          + Conturee()
+          + draw()
+          + getLength()
+          + getWidth()
+          + toString()
+          ~ area()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      abstract class model.Decorator {
+          - color : Color
+          + Decorator()
+          + Decorator()
+          + Decorator()
+          + draw()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.DrawStudies {
+          - Y1 : double
+          - Y2 : double
+          - gr : GraphicsContext
+          - key : int
+          - x1 : double
+          - x2 : double
+          + drawActivity()
+          + getGraphicContent()
+          + getRectan()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.Rectan {
+          ~ color : Color
+          ~ length : double
+          ~ width : double
+          ~ x : double
+          ~ y : double
+          + Rectan()
+          + draw()
+          + getLength()
+          + getWidth()
+          + getX()
+          + toString()
+          ~ area()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.SaveDat {
+          - alert : Alert
+          - extension : String
+          - file : File
+          - fileName : String
+          - object : Object
+          + SaveDat()
+          + getFullPath()
+          + openDatFile()
+          + saveToFile()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.SavePng {
+          - alert : Alert
+          - extension : String
+          - file : File
+          - fileName : String
+          - image : WritableImage
+          + SavePng()
+          + getFullPath()
+          + saveToFile()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      abstract class model.SaveSettings {
+          # directoryChooser : DirectoryChooser
+          # saveDir : String
+          # selectedDirectory : File
+          - alert : Alert
+          - stage : Stage
+          + SaveSettings()
+          + chooseSaveDir()
+          {abstract} + saveToFile()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      abstract class model.ShapeDraw {
+          - color : Color
+          - length : double
+          - width : double
+          - x : double
+          - y : double
+          + ShapeDraw()
+          + ShapeDraw()
+          {abstract} + draw()
+          {abstract} + getLength()
+          {abstract} + getWidth()
+          + getX()
+          + getY()
+          + setColor()
+          + setX()
+          + setY()
+          {abstract} + toString()
+          {abstract} ~ area()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.Textt {
+          ~ txt : String
+          - color : Color
+          + Textt()
+          + draw()
+          + getLength()
+          + getWidth()
+          + toString()
+          ~ area()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.TypeFileFactory {
+          + getSaveType()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.UserSettings {
+          - calendar : Calendar
+          - gr : GraphicsContext
+          + CanvasClick()
+          + UserSettings()
+          + getContext()
+          + getLocaleMonth()
+          + getShape()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.tableViewPlan {
+          - colColor : Color
+          - colComm : String
+          - colDate : LocalDate
+          - colDiscipl : String
+          - colFrom : String
+          - colNo : int
+          - colStatus : String
+          - colTo : String
+          - colWeekNo : int
+          + getColColor()
+          + getColComm()
+          + getColDate()
+          + getColDiscipl()
+          + getColFrom()
+          + getColNo()
+          + getColStatus()
+          + getColTo()
+          + getColWeekNo()
+          + setColColor()
+          + setColComm()
+          + setColDate()
+          + setColDiscipl()
+          + setColFrom()
+          + setColNo()
+          + setColStatus()
+          + setColTo()
+          + setColWeekNo()
+          + tableViewPlan()
+          + tableViewPlan()
+      }
+    }
+  }
+  
+
+  model.Conturee -up-|> model.Decorator
+  model.Conturee o-- model.ShapeDraw : shapeDraw
+  model.Decorator -up-|> model.ShapeDraw
+  model.Decorator o-- model.ShapeDraw : shapeDraw
+  model.DrawStudies -up-|> model.Calculation
+  model.DrawStudies o-- model.Rectan : rectan
+  model.Rectan -up-|> model.ShapeDraw
+  model.SaveDat -up-|> model.SaveSettings
+  model.SavePng -up-|> model.SaveSettings
+  model.Textt -up-|> model.Decorator
+  model.UserSettings -up-|> model.DrawStudies
+  model.UserSettings o-- model.Rectan : rect
+  model.tableViewPlan .up.|> java.io.Serializable
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

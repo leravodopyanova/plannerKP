@@ -17,13 +17,15 @@ public class SavePng extends SaveSettings {
     private File file;
     private Alert alert;
     private WritableImage image;
+    private String saveDirection = "C:";
 
-    public SavePng(String fileName, String extension){
+    public SavePng(String saveDirection, String fileName, String extension){
+        this.saveDirection = saveDirection;
         this.fileName = fileName;
         this.extension = extension;
     }
     public String getFullPath(){
-        return saveDir + this.fileName + this.extension;
+        return this.saveDirection + "\\" + this.fileName + this.extension;
     }
 
     @Override

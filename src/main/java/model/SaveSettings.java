@@ -14,7 +14,7 @@ public abstract class SaveSettings {
     private Stage stage;
     protected DirectoryChooser directoryChooser;
     protected File selectedDirectory;
-    protected String saveDir = "";
+    protected String saveDir = "C:\\";
 
     public abstract void saveToFile(Node node, SnapshotParameters ssp) throws IOException;
     public SaveSettings(){
@@ -32,10 +32,14 @@ public abstract class SaveSettings {
        selectedDirectory = directoryChooser.showDialog(stage);
 
        if (selectedDirectory != null) {
-           saveDir = selectedDirectory.getAbsolutePath();
+           this.saveDir = selectedDirectory.getAbsolutePath();
+           System.out.println(this.saveDir);
        }
 
        alert.setContentText("Для сохранения выбран путь " + saveDir + "\nЕсли хотите изменить путь, перезапустите программу.");
        alert.showAndWait();
+    }
+    public String getSaveDir(){
+        return saveDir;
     }
 }

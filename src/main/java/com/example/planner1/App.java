@@ -1,13 +1,17 @@
-package com.example.view;
-
+package com.example.planner1;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.io.IOException;
+
+/**
+ * Класс, запускающий окно программы.
+ * @author Водопьянова Валерия
+ * @version 1.1
+ */
 
 public class App extends Application {
     @Override

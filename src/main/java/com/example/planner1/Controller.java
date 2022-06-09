@@ -1,4 +1,4 @@
-package com.example.view;
+package com.example.planner1;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +34,6 @@ public class Controller implements Initializable {
     public TextField tfDisciplineSt;
     public CheckBox chbIsDone;
     public Canvas canvas1;
-    public GraphicsContext gr;
     public Canvas canvas2;
     public Canvas canvas3;
     public Canvas canvas4;
@@ -50,7 +49,7 @@ public class Controller implements Initializable {
     public Button toNext;
     public Label lblColorBlock;
     public GridPane gridPaneNode = new GridPane();
-    private final ObservableList<String> extensions = FXCollections.observableArrayList(".xlsx", ".png", ".dat");
+    private final ObservableList<String> extensions = FXCollections.observableArrayList( ".png", ".dat");
     public ComboBox cmbTypeFile;
     public Button btnClose11;
     public Button btnClose111;
@@ -66,10 +65,9 @@ public class Controller implements Initializable {
     public TableColumn <tableViewPlan, String> colComm = new TableColumn<>();
     public TableColumn<tableViewPlan, Color> colColor = new TableColumn<>();
     public TableColumn <tableViewPlan, Integer> colWeekNo = new TableColumn<>();
-    private SnapshotParameters ssp;
+
     public DatePicker dpDate;
     public Button btnCloseSt;
-    public Button btnCloseM;
     public TextField tfNameDiscipline;
     public TextField tfAcademicHours;
     public Button btnAddPlan;
@@ -81,40 +79,39 @@ public class Controller implements Initializable {
     public TextField tfToTime;
     public TextArea taComment;
     public Button btnAddToPlanSt;
-    public UserSettings userSettings;
     @FXML
     private TextField tfProjectNameSt;
     @FXML
     private TextField tfProjectNameM;
+    public GraphicsContext gr;
+    private SnapshotParameters ssp;
+    public UserSettings userSettings;
     private Calendar calendar = Calendar.getInstance();
-
     private LocalDate date;
     private Locale locale = Locale.ENGLISH;
     private GregorianCalendar gnow;
     private int countCol = 0;
     private int weekNo;
-    private String filename = "C:\\Users\\Лера\\Downloads\\Книга1.xlsx";
     private CheckClass checkClass;
     private Rectan rectan;
     private Decorator decRectan;
-    private String canvasDate = "";
-    private String saveDir = "C:\\";
     private HashMap<Canvas, String> canvasDateMap = new HashMap<>();
     private  HashMap<String, Date> weekDates = new HashMap<>();
     private boolean isEditStart = false;
-    private SaveSettings saveSettings = new SavePng("1", ".png");
+    private SaveSettings saveSettings = new SavePng("", "1", ".png");
     private String selectedExtension = "";
-    private TypeFileFactory typeFileFactory = new TypeFileFactory();
+    private String selectedDir = "";
+    private SaveFactory saveFactory;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         gnow = new GregorianCalendar();
         checkClass = new CheckClass();
         userSettings = new UserSettings();
-
+        saveFactory = new SaveFactory();
         decRectan = null;
-
         saveSettings.chooseSaveDir();
+        selectedDir = saveSettings.getSaveDir();
         setToolTips();
 
         cmbTypeFile.setItems(extensions);
@@ -125,7 +122,7 @@ public class Controller implements Initializable {
 
         // Для отображения стиля названия проекта
         tfProjectNameSt.setStyle("-fx-text-fill: #AFEEEE; -fx-background-color: rgba(0,0,0,0);");
-        //  tfProjectNameM.setStyle("-fx-text-fill: #AFEEEE; -fx-background-color: rgba(0,0,0,0);");
+        //tfProjectNameM.setStyle("-fx-text-fill: #AFEEEE; -fx-background-color: rgba(0,0,0,0);");
 
         // Закрытие по кнопке
         btnCloseSt.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -135,10 +132,11 @@ public class Controller implements Initializable {
             }
         });
 
-       btnCloseM.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        toNext.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.exit(0);
+                // переход к следующему окну
+                starMethodistWindow();
             }
         });
 
@@ -156,7 +154,7 @@ public class Controller implements Initializable {
         loadGanttDiagram();
     }
 
-    private void startMethodistWin(){
+    private void starMethodistWindow() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("WorkPlacemathodist.fxml"));
             Stage stage = new Stage();
@@ -169,7 +167,7 @@ public class Controller implements Initializable {
         }
     }
 
-    private void startStudentWin(){
+    private void starStudentWindow() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("WorkPlaceStudent.fxml"));
             Stage stage = new Stage();
@@ -244,7 +242,6 @@ public class Controller implements Initializable {
         userSettings.CanvasClick(tfFromTime, tfToTime, canvas7, mouseEvent, rectan, weekDates, dpDate);
         isEditStart = true;
     }
-
     public String getDateString(){
         String dateStr = calendar.getTime().toString();
         dateStr = dateStr.substring(4, 11) + dateStr.substring((dateStr.length() - 4));
@@ -258,38 +255,30 @@ public class Controller implements Initializable {
         lblWeekNom.setText("Неделя " + weekNo);
 
         calendar.setWeekDate(2022, weekNo, Calendar.MONDAY);
-        calendar = calendar;
         setCanvasColor(canvas1);
-        System.out.println(calendar.getTime());
         weekDates.put(canvas1.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.TUESDAY);
-        calendar = calendar;
         setCanvasColor(canvas2);
         weekDates.put(canvas2.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.WEDNESDAY);
-        calendar = calendar;
         setCanvasColor(canvas3);
         weekDates.put(canvas3.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.THURSDAY);
-        calendar = calendar;
         setCanvasColor(canvas4);
         weekDates.put(canvas4.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.FRIDAY);
-        calendar = calendar;
         setCanvasColor(canvas5);
         weekDates.put(canvas5.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.SATURDAY);
-        calendar = calendar;
         setCanvasColor(canvas6);
         weekDates.put(canvas6.getId(), calendar.getTime());
 
         calendar.setWeekDate(2022, weekNo, Calendar.SUNDAY);
-        calendar = calendar;
         setCanvasColor(canvas7);
         weekDates.put(canvas7.getId(), calendar.getTime());
 
@@ -308,7 +297,6 @@ public class Controller implements Initializable {
 
     public void setCanvasColor(Canvas cnv){
         canvasDateMap.put(cnv, getDateString());
-        System.out.println(canvasDateMap);
         cnv.getGraphicsContext2D().setFill(Color.ORANGE);
         cnv.getGraphicsContext2D().setTextAlign(TextAlignment.CENTER);
         cnv.getGraphicsContext2D().setFont(Font.font("Comic Sans MS", 18));
@@ -347,8 +335,8 @@ public class Controller implements Initializable {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) throws IOException {
-       saveSettings = typeFileFactory.getSaveType(tfProjectNameSt.getText(), selectedExtension, tableViewPlans);
-       saveSettings.saveToFile(gridPaneNode, ssp);
+        saveSettings = saveFactory.ChooseSaveMethod(selectedDir, tfProjectNameSt.getText(), selectedExtension, tableViewPlans);
+        saveSettings.saveToFile(gridPaneNode, ssp);
     }
 
     public void setToolTips(){
@@ -363,8 +351,8 @@ public class Controller implements Initializable {
         tfProjectNameSt.setTooltip(new Tooltip("Это название будет выбрано для сохранения файла"));
         btnHow.setTooltip(new Tooltip("Кликните по строке с нужным днем и под нужным временем - первая граница задачи, второй клик - для обозначения второй границы.\n" +
                 "Третий клик по пустому месту строки - заливка задачи цветом по умолчанию."));
-    }
 
+    }
     public void chooseColorOnAction(ActionEvent actionEvent) {
         if(isEditStart){
             if(decRectan==null){
@@ -373,7 +361,6 @@ public class Controller implements Initializable {
             else{
                 decRectan=new Conturee(userSettings.getShape(), cpBlockColor.getValue());
             }
-
             decRectan.draw(userSettings.getContext());
         }
     }
@@ -389,9 +376,5 @@ public class Controller implements Initializable {
 
     public void cmbType_onAction(ActionEvent actionEvent) {
         selectedExtension = cmbTypeFile.getValue().toString();
-    }
-
-    public void toNextOnAction_St(ActionEvent actionEvent) {
-        startMethodistWin();
     }
 }

@@ -4,6 +4,15 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+/**
+ * Класс, задающий логику для рисования задач на диаграмме.
+ * <p>
+ *     Наследует реализацию класса Calculation.
+ * </p>
+ * @author Водопьянова Валерия
+ * @version 1.1
+ * @see Calculation
+ */
 
 public class DrawStudies extends Calculation{
     private final double Y1 = 0;
@@ -14,6 +23,20 @@ public class DrawStudies extends Calculation{
     private Rectan rectan;
     private GraphicsContext gr;
 
+    /**
+     * Этот метод реализует логику построения фигуры для отображения задачи.
+     * <p>
+     *     Определяет границы задачи, между которыми будет зарисована фигура для отображения задачи.
+     * </p>
+     * <p>
+     *     Выводит в текстовые поля время начала и окончания задач.
+     * </p>
+     * @param gr Объект, задающий графический буфер для вывода графических объектов.
+     * @param mouseEvent Значение, получаемое по событию мыши.
+     * @param rectan Объект фигуры для зарисовки задачи.
+     * @param from Текстовое поле для вывода начала задачи.
+     * @param to Текстовое поле для вывода окончания задачи.
+     */
     public void drawActivity(GraphicsContext gr, MouseEvent mouseEvent, Rectan rectan, TextField from, TextField to){
         this.gr = gr;
         if(key == 0){
@@ -48,9 +71,18 @@ public class DrawStudies extends Calculation{
         this.rectan = rectan;
     }
 
+    /**
+     * Этот метод возвращает последнее сохраненное значение объекта фигуры (задачи).
+     * @return Объект фигуры для отображения задачи.
+     */
     public Rectan getRectan(){
         return this.rectan;
     }
+
+    /**
+     * Этот метод возвращает последнее сохраненное значение объекта гоафического буфера.
+     * @return Объект графического буфера.
+     */
     public GraphicsContext getGraphicContent(){
         return this.gr;
     }
