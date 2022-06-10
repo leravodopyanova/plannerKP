@@ -8,12 +8,21 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 /**
- * Класс, запускающий окно программы.
+ * Класс, запускающий окно выполнения программы.
  * @author Водопьянова Валерия
  * @version 1.1
  */
 
 public class App extends Application {
+    /**
+     * Этот метод запускает окно выполнения программы.
+     * @param stage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     * @throws IOException
+     * @see IOException
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("WorkPlaceStudent.fxml"));

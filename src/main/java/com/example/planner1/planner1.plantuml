@@ -2,14 +2,14 @@
 
 title __PLANNER1's Class Diagram__\n
 
-  namespace  {
+
     namespace om.example.planner1 {
       class com.example.planner1.App {
           {static} + main()
           + start()
       }
     }
-  }
+
   
 
   namespace  {
@@ -21,7 +21,6 @@ title __PLANNER1's Class Diagram__\n
           + btnClear : Button
           + btnClose11 : Button
           + btnClose111 : Button
-          + btnCloseM : Button
           + btnCloseSt : Button
           + btnDeletePlan : Button
           + btnHow : Button
@@ -63,16 +62,14 @@ title __PLANNER1's Class Diagram__\n
           + toNext : Button
           + tvTablePlans : TableView<tableViewPlan>
           - calendar : Calendar
-          - canvasDate : String
           - canvasDateMap : HashMap<Canvas, String>
           - countCol : int
           - date : LocalDate
           - extensions : ObservableList<String>
-          - filename : String
           - gnow : GregorianCalendar
           - isEditStart : boolean
           - locale : Locale
-          - saveDir : String
+          - selectedDir : String
           - selectedExtension : String
           - ssp : SnapshotParameters
           - tableViewPlans : ObservableList<tableViewPlan>
@@ -80,7 +77,6 @@ title __PLANNER1's Class Diagram__\n
           - tfProjectNameSt : TextField
           - weekDates : HashMap<String, Date>
           - weekNo : int
-          + btnAddToPlanM_OnAction()
           + btnAddToPlanSt_OnAction()
           + btnLeftClick()
           + btnRightClick()
@@ -88,7 +84,6 @@ title __PLANNER1's Class Diagram__\n
           + chooseColorOnAction()
           + clearDiagram()
           + clearDiagramOnAction()
-          + cmbType_onAction()
           + getDateString()
           + initialize()
           + loadGanttDiagram()
@@ -102,10 +97,9 @@ title __PLANNER1's Class Diagram__\n
           + setCanvasColor()
           + setToolTips()
           + taCommentInputChange()
-          + toNextOnAction_St()
           - init_Data()
-          - startMethodistWin()
-          - startStudentWin()
+          - starMethodistWindow()
+          - starStudentWindow()
       }
     }
   }
@@ -117,8 +111,8 @@ title __PLANNER1's Class Diagram__\n
   com.example.planner1.Controller o-- model.CheckClass : checkClass
   com.example.planner1.Controller o-- model.Decorator : decRectan
   com.example.planner1.Controller o-- model.Rectan : rectan
+  com.example.planner1.Controller o-- model.SaveFactory : saveFactory
   com.example.planner1.Controller o-- model.SaveSettings : saveSettings
-  com.example.planner1.Controller o-- model.TypeFileFactory : typeFileFactory
 
 
 right footer

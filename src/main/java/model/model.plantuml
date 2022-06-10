@@ -13,9 +13,9 @@ title __MODEL's Class Diagram__\n
           - minutes : float
           - minutes_length_in_px : double
           - time : String
+          + getStringFullTimeSubj()
           + getTimePoint()
           + getTimePointInMinutes()
-          + getTimeSubjAllTime()
           + getTimeSubj_min()
           + setDateField()
           + setTextFieldsByTime()
@@ -106,10 +106,21 @@ title __MODEL's Class Diagram__\n
           - file : File
           - fileName : String
           - object : Object
+          - selectedDir : String
           + SaveDat()
           + getFullPath()
           + openDatFile()
           + saveToFile()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace odel {
+      class model.SaveFactory {
+          - alert : Alert
+          + ChooseSaveMethod()
       }
     }
   }
@@ -123,6 +134,7 @@ title __MODEL's Class Diagram__\n
           - file : File
           - fileName : String
           - image : WritableImage
+          - saveDirection : String
           + SavePng()
           + getFullPath()
           + saveToFile()
@@ -141,6 +153,7 @@ title __MODEL's Class Diagram__\n
           - stage : Stage
           + SaveSettings()
           + chooseSaveDir()
+          + getSaveDir()
           {abstract} + saveToFile()
       }
     }
@@ -183,15 +196,6 @@ title __MODEL's Class Diagram__\n
           + getWidth()
           + toString()
           ~ area()
-      }
-    }
-  }
-  
-
-  namespace  {
-    namespace odel {
-      class model.TypeFileFactory {
-          + getSaveType()
       }
     }
   }

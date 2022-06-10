@@ -30,6 +30,15 @@ import java.time.LocalDateTime;
 import java.time.temporal.WeekFields;
 import java.util.*;
 
+/**
+ * Класс (контроллер), реализующий взаимодействие пользователя с моделью данных.
+ * <p>
+ *     Позволяет изменить состояние объектов модели данных за счет обработки событий пользователя.
+ * </p>
+ * @author Водопьянова Валерия
+ * @version 1.1
+ */
+
 public class Controller implements Initializable {
     public TextField tfDisciplineSt;
     public CheckBox chbIsDone;
@@ -65,7 +74,6 @@ public class Controller implements Initializable {
     public TableColumn <tableViewPlan, String> colComm = new TableColumn<>();
     public TableColumn<tableViewPlan, Color> colColor = new TableColumn<>();
     public TableColumn <tableViewPlan, Integer> colWeekNo = new TableColumn<>();
-
     public DatePicker dpDate;
     public Button btnCloseSt;
     public TextField tfNameDiscipline;
@@ -103,6 +111,7 @@ public class Controller implements Initializable {
     private String selectedDir = "";
     private SaveFactory saveFactory;
 
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         gnow = new GregorianCalendar();
@@ -154,6 +163,9 @@ public class Controller implements Initializable {
         loadGanttDiagram();
     }
 
+    /**
+     * Этот метод открывает окно для роли Методиста.
+     */
     private void starMethodistWindow() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("WorkPlacemathodist.fxml"));
@@ -166,7 +178,9 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Этот метод открывает окно для роли Методиста.
+     */
     private void starStudentWindow() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("WorkPlaceStudent.fxml"));
@@ -180,9 +194,10 @@ public class Controller implements Initializable {
         }
     }
 
-    public void btnAddToPlanM_OnAction(ActionEvent actionEvent) {
-
-    }
+    /**
+     * Этот обработчик событий реализует добавления данных задачи в таблицу.
+     * @param actionEvent Параметр события.
+     */
     public void btnAddToPlanSt_OnAction(ActionEvent actionEvent) {
         colNo.setCellValueFactory(new PropertyValueFactory<tableViewPlan, Integer >("colNo"));
         colDate.setCellValueFactory(new PropertyValueFactory<tableViewPlan, LocalDate>("colDate"));
@@ -198,6 +213,9 @@ public class Controller implements Initializable {
         tvTablePlans.setItems(tableViewPlans);
     }
 
+    /**
+     * Этот метод реализует инициализацию модели табличных данных.
+     */
     private void init_Data() {
         date = dpDate.getValue();
         weekNo = date.get(WeekFields.of(locale).weekOfWeekBasedYear());
@@ -208,45 +226,115 @@ public class Controller implements Initializable {
                 taComment.getText(), cpBlockColor.getValue(), weekNo));
     }
 
+    /**
+     * Обработчик события клика мыши по холсту canvas1.
+     * <p>
+     *     Рисует задачи на диаграмме Ганта. Определяте, дату, время начала и окончания выполнения задачи.
+     * </p>
+     * @param mouseEvent Параметр события клика мыши.
+     * @see Canvas
+     */
     public void onCanva1_clicked(MouseEvent mouseEvent) {
         userSettings.CanvasClick(tfFromTime, tfToTime, canvas1, mouseEvent, rectan, weekDates, dpDate);
         isEditStart = true;
     }
 
+    /**
+     * Обработчик события клика мыши по холсту canvas2.
+     * <p>
+     *     Рисует задачи на диаграмме Ганта. Определяте, дату, время начала и окончания выполнения задачи.
+     * </p>
+     * @param mouseEvent Параметр события клика мыши.
+     * @see Canvas
+     */
     public void onCanva2_clicked(MouseEvent mouseEvent) {
         userSettings.CanvasClick(tfFromTime, tfToTime, canvas2, mouseEvent, rectan, weekDates, dpDate);
         isEditStart = true;
     }
 
+    /**
+     * Обработчик события клика мыши по холсту canvas3.
+     * <p>
+     *     Рисует задачи на диаграмме Ганта. Определяте, дату, время начала и окончания выполнения задачи.
+     * </p>
+     * @param mouseEvent Параметр события клика мыши.
+     * @see Canvas
+     */
     public void onCanva3_clicked(MouseEvent mouseEvent) {
         userSettings.CanvasClick(tfFromTime, tfToTime, canvas3, mouseEvent, rectan, weekDates, dpDate);
         isEditStart = true;
     }
 
+    /**
+     * Обработчик события клика мыши по холсту canvas4.
+     * <p>
+     *     Рисует задачи на диаграмме Ганта. Определяте, дату, время начала и окончания выполнения задачи.
+     * </p>
+     * @param mouseEvent Параметр события клика мыши.
+     * @see Canvas
+     */
     public void onCanva4_clicked(MouseEvent mouseEvent) {
         userSettings.CanvasClick(tfFromTime, tfToTime, canvas4, mouseEvent, rectan, weekDates, dpDate);
         isEditStart = true;
     }
 
+    /**
+     * Обработчик события клика мыши по холсту canvas5.
+     * <p>
+     *     Рисует задачи на диаграмме Ганта. Определяте, дату, время начала и окончания выполнения задачи.
+     * </p>
+     * @param mouseEvent Параметр события клика мыши.
+     * @see Canvas
+     */
     public void onCanva5_clicked(MouseEvent mouseEvent) {
         userSettings.CanvasClick(tfFromTime, tfToTime, canvas5, mouseEvent, rectan, weekDates, dpDate);
         isEditStart = true;
     }
 
+    /**
+     * Обработчик события клика мыши по холсту canvas6.
+     * <p>
+     *     Рисует задачи на диаграмме Ганта. Определяте, дату, время начала и окончания выполнения задачи.
+     * </p>
+     * @param mouseEvent Параметр события клика мыши.
+     * @see Canvas
+     */
     public void onCanva6_clicked(MouseEvent mouseEvent) {
         userSettings.CanvasClick(tfFromTime, tfToTime, canvas6, mouseEvent, rectan, weekDates, dpDate);
         isEditStart = true;
     }
 
+    /**
+     * Обработчик события клика мыши по холсту canvas7.
+     * <p>
+     *     Рисует задачи на диаграмме Ганта. Определяте, дату, время начала и окончания выполнения задачи.
+     * </p>
+     * @param mouseEvent Параметр события клика мыши.
+     * @see Canvas
+     */
     public void onCanva7_clicked(MouseEvent mouseEvent) {
         userSettings.CanvasClick(tfFromTime, tfToTime, canvas7, mouseEvent, rectan, weekDates, dpDate);
         isEditStart = true;
     }
+
+    /**
+     * Этот метод получает строку даты из Calendar.
+     * @return Строка даты ДД.ММ.ГГ.
+     * @see Calendar
+     */
     public String getDateString(){
         String dateStr = calendar.getTime().toString();
         dateStr = dateStr.substring(4, 11) + dateStr.substring((dateStr.length() - 4));
         return dateStr;
     }
+
+    /**
+     * Этот метод выполняет загрузку диаграммы Ганта в окно программы. <br>
+     * Устанавливает номер недели, месяц и цвет полей диаграммы. <br>
+     * Заполняет набор HashMap для сохранения дат отображаемой недели. <br>
+     * Каждое выполнения метода начинается с очистки набора соответствий Id холста и дат canvasDateMap, а также набора соответствий Id холста и дат canvasDateMap.
+     * @see HashMap
+     */
     public void loadGanttDiagram(){
         canvasDateMap.clear();
         weekDates.clear();
@@ -285,16 +373,29 @@ public class Controller implements Initializable {
         lblMonth.setText(userSettings.getLocaleMonth());
     }
 
+    /**
+     * Этот обработчик событий перелистывает даты на неделю назад.
+     * @param actionEvent Параметр обработчика событий клика по кнопке.
+     */
     public void btnLeftClick(ActionEvent actionEvent) {
         weekNo--;
         loadGanttDiagram();
     }
 
+    /**
+     * Этот обработчик событий перелистывает даты на неделю вперед.
+     * @param actionEvent Параметр обработчика событий клика по кнопке.
+     */
     public void btnRightClick(ActionEvent actionEvent) {
         weekNo++;
         loadGanttDiagram();
     }
 
+    /**
+     * Этот метод устанавливает цветовое оформление холстов.
+     * Формирует карту соответствий холста и дат на холсте.
+     * @param cnv Параметр холста для цветового оформления.
+     */
     public void setCanvasColor(Canvas cnv){
         canvasDateMap.put(cnv, getDateString());
         cnv.getGraphicsContext2D().setFill(Color.ORANGE);
@@ -308,6 +409,11 @@ public class Controller implements Initializable {
         );
     }
 
+    /**
+     * Этот обработчик событий очищает диаграмму Ганта от задач.
+     * Очищает дату и время выполнения задач.
+     * @param actionEvent Параметр обработчика событий клика по кнопке.
+     */
     public void clearDiagramOnAction(ActionEvent actionEvent) {
         tfToTime.setText("");
         tfFromTime.setText("");
@@ -317,6 +423,9 @@ public class Controller implements Initializable {
         isEditStart = false;
     }
 
+    /**
+     * Этот метод очищает диаграмму Ганта от задач.
+     */
     public void clearDiagram(){
         canvas1.getGraphicsContext2D().setFill(Color.PAPAYAWHIP);
         canvas1.getGraphicsContext2D().fillRect(0, 0, canvas1.getWidth(), canvas1.getHeight());
@@ -334,11 +443,21 @@ public class Controller implements Initializable {
         canvas7.getGraphicsContext2D().fillRect(0, 0, canvas7.getWidth(), canvas7.getHeight());
     }
 
+    /**
+     * Этот обработчик событий реализует сохранение данных программы в файл.
+     * @param actionEvent Параметр обработчика событий клика по кнопке.
+     * @throws IOException
+     * @see IOException
+     */
     public void btnSaveOnAction(ActionEvent actionEvent) throws IOException {
+        selectedExtension = cmbTypeFile.getValue().toString();
         saveSettings = saveFactory.ChooseSaveMethod(selectedDir, tfProjectNameSt.getText(), selectedExtension, tableViewPlans);
         saveSettings.saveToFile(gridPaneNode, ssp);
     }
 
+    /**
+     * Этот метод устанавливает всплывающие подсказки.
+     */
     public void setToolTips(){
         btnSave.setTooltip(new Tooltip("Сохранить диаграмму (png), или таблицу (xlsx, dat)"));
         btnClear.setTooltip(new Tooltip("Очистить диаграмму Ганта"));
@@ -353,6 +472,11 @@ public class Controller implements Initializable {
                 "Третий клик по пустому месту строки - заливка задачи цветом по умолчанию."));
 
     }
+
+    /**
+     * Этот обработчик событий реализует выбор цвета по клику на поле выбора цвета.
+     * @param actionEvent Параметр обработчика событий клика по кнопке.
+     */
     public void chooseColorOnAction(ActionEvent actionEvent) {
         if(isEditStart){
             if(decRectan==null){
@@ -365,6 +489,10 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Этот обработчик событий реализует применения декора задачи (заливки и добавления текста на задачу).
+     * @param inputMethodEvent Параметр обработчика события движения мыши.
+     */
     public void taCommentInputChange(MouseEvent inputMethodEvent) {
         if(isEditStart && decRectan!=null){
             decRectan=new Conturee(userSettings.getShape(), cpBlockColor.getValue());
@@ -372,9 +500,5 @@ public class Controller implements Initializable {
             decRectan=new Textt(userSettings.getShape(), taComment.getText(), Color.WHITE);
             decRectan.draw(userSettings.getContext());
         }
-    }
-
-    public void cmbType_onAction(ActionEvent actionEvent) {
-        selectedExtension = cmbTypeFile.getValue().toString();
     }
 }
