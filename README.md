@@ -36,7 +36,7 @@
 
 1. Откройте репозиторий https://github.com/leravodopyanova/plannerKP.git.
 2. Code -> Download ZIP или Open with GitHub Desktop или Используйте в Git, указав URL: https://github.com/leravodopyanova/plannerKP.git.
-3. Откройте проект в IntelliJ.
+3. Откройте проект в IntelliJ Idea.
 4. Загрузите зависимости для maven из списка выше.
 
 ## Конфигурация
